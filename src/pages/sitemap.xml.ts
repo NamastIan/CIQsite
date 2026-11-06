@@ -1,5 +1,6 @@
 import type {APIRoute} from 'astro';
 
+import {LEVELS, levelHref} from '../content/levels';
 import {postHref, publishedPosts, tagHref, tagsOf} from '../lib/posts';
 import {absoluteUrl} from '../lib/site-url';
 
@@ -11,7 +12,7 @@ import {absoluteUrl} from '../lib/site-url';
  * Search engines need absolute URLs: without a known address (`npm run dev`,
  * the Preview) the list is empty. A Publish always knows it (src/lib/site-url.ts).
  */
-const EXCLUDE = new Set(['/404/']);
+const EXCLUDE = new Set(['/404/', '/thank-you/']);
 
 /** `./about.astro` → `/about/`, `./blog/index.astro` → `/blog/`; dynamic (`[slug]`) pages are listed below. */
 const pagePaths = Object.keys(import.meta.glob('./**/*.astro'))
@@ -26,6 +27,7 @@ export const GET: APIRoute = async () => {
   const posts = await publishedPosts();
   const entries: {path: string; lastmod?: Date}[] = [
     ...pagePaths.map(path => ({path})),
+    ...LEVELS.map(level => ({path: levelHref(level)})),
     ...posts.map(post => ({path: postHref(post), lastmod: post.data.updatedAt ?? post.data.publishedAt})),
     ...tagsOf(posts).map(tag => ({path: tagHref(tag.label)})),
   ];

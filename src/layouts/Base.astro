@@ -19,7 +19,9 @@ import '../styles/global.css';
 
 import {ClientRouter} from 'astro:transitions';
 
-import {NAV, SITE} from '../content/site';
+import BrandMark from '../components/BrandMark.astro';
+import Icon from '../components/Icon.astro';
+import {FOOTER, NAV, SITE, isGroup} from '../content/site';
 import {type JsonLd, jsonLdText, siteJsonLd} from '../lib/json-ld';
 import {absoluteUrl} from '../lib/site-url';
 
@@ -57,7 +59,8 @@ const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
 const path = Astro.url.pathname;
 const canonical = noindex ? null : absoluteUrl(path);
 const socialImage = image ? absoluteUrl(image) : null;
-const active = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const active = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href));
+const current = (href: string) => (active(href) ? 'page' : undefined);
 // The home page tells search engines the site's name; other pages bring their own.
 const structured = [...(path === '/' ? [siteJsonLd()] : []), ...(jsonLd && !noindex ? [jsonLd] : [])];
 ---
@@ -84,7 +87,9 @@ const structured = [...(path === '/' ? [siteJsonLd()] : []), ...(jsonLd && !noin
     <meta name="twitter:title" content={title ?? SITE.name} />
     <meta name="twitter:description" content={description} />
     {socialImage && <meta name="twitter:image" content={socialImage} />}
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="preload" href="/fonts/google-sans-flex-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={`${SITE.name} blog`} href="/rss.xml" />
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
@@ -94,17 +99,89 @@ const structured = [...(path === '/' ? [siteJsonLd()] : []), ...(jsonLd && !noin
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <div class="wrap site-header-inner">
-        <a href="/" class="brand">{SITE.name}</a>
-        <nav class="site-nav" aria-label="Main">
-          {
-            NAV.map(item => (
-              <a href={item.href} data-astro-prefetch="viewport" aria-current={active(item.href) ? 'page' : undefined}>
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
+      <div class="wrap header-inner">
+        <a href="/" class="brand" aria-label={`${SITE.name}, home`}>
+          <BrandMark />
+          <span>Conflict Intelligence <span>Training</span></span>
+        </a>
+
+        <div class="nav-desktop">
+          <nav aria-label="Main">
+            <ul class="nav-list">
+              {
+                NAV.map(item =>
+                  isGroup(item) ? (
+                    <li>
+                      <details class:list={['nav-group', item.links.some(link => active(link.href)) && 'is-active']} data-dropdown>
+                        <summary>
+                          {item.label} <Icon name="chevron" />
+                        </summary>
+                        <ul class="nav-panel">
+                          {item.links.map(link => (
+                            <li>
+                              <a href={link.href} aria-current={current(link.href)}>
+                                {link.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    </li>
+                  ) : (
+                    <li>
+                      <a href={item.href} data-astro-prefetch="viewport" aria-current={current(item.href)}>
+                        {item.label}
+                      </a>
+                    </li>
+                  )
+                )
+              }
+            </ul>
+          </nav>
+          <a class="button accent" href="/challenge/">Begin the Challenge</a>
+        </div>
+
+        <details class="nav-mobile" data-dropdown>
+          <summary>
+            <Icon name="menu" class="burger burger-open" />
+            <Icon name="close" class="burger burger-close" />
+            Menu
+          </summary>
+          <nav class="mobile-panel" aria-label="Main menu">
+            {
+              NAV.map(item =>
+                isGroup(item) ? (
+                  <>
+                    <h2>{item.label}</h2>
+                    <ul>
+                      {item.links.map(link => (
+                        <li>
+                          <a href={link.href} aria-current={current(link.href)}>
+                            {link.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : null
+              )
+            }
+            <h2>More</h2>
+            <ul>
+              <li><a href="/" aria-current={path === '/' ? 'page' : undefined}>Home</a></li>
+              {
+                NAV.filter(item => !isGroup(item)).map(item => (
+                  <li>
+                    <a href={(item as {href: string}).href} aria-current={current((item as {href: string}).href)}>
+                      {item.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <a class="button accent" href="/challenge/">Begin the 7-Day Challenge</a>
+          </nav>
+        </details>
       </div>
     </header>
 
@@ -113,12 +190,32 @@ const structured = [...(path === '/' ? [siteJsonLd()] : []), ...(jsonLd && !noin
     </main>
 
     <footer class="site-footer">
-      <div class="wrap site-footer-inner">
-        <span>© {new Date().getUTCFullYear()} {SITE.name}</span>
-        <nav aria-label="Footer">
-          {NAV.map(item => <a href={item.href}>{item.label}</a>)}
-          <a href="/rss.xml">RSS</a>
-        </nav>
+      <div class="wrap footer-grid">
+        <div class="footer-about">
+          <a href="/" class="brand">
+            <BrandMark />
+            <span>Conflict Intelligence <span>Training</span></span>
+          </a>
+          <p>{SITE.tagline} An online school and community for developing Conflict Intelligence through the Seven Levels Framework.</p>
+        </div>
+        {
+          FOOTER.map(group => (
+            <nav aria-label={`Footer: ${group.label}`}>
+              <h2>{group.label}</h2>
+              <ul>
+                {group.links.map(link => (
+                  <li>
+                    <a href={link.href}>{link.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))
+        }
+      </div>
+      <div class="wrap footer-base">
+        <span>© {new Date().getUTCFullYear()} {SITE.name}. Path B of {SITE.parent}.</span>
+        <span><a href="/">Home</a></span>
       </div>
     </footer>
 
@@ -131,6 +228,23 @@ const structured = [...(path === '/' ? [siteJsonLd()] : []), ...(jsonLd && !noin
       // Back from the payment provider INSIDE a Buy button's payment window: tell the page that
       // opened it (it checks the payment and goes on), then close (docs/agent/payments.md).
       document.addEventListener('astro:page-load', notifyPaymentOpener);
+
+      // Header menus are <details>: they work without this. It only closes an open menu when
+      // another opens, on a click outside, and on Escape (focus goes back to its toggle).
+      const openMenus = () => [...document.querySelectorAll<HTMLDetailsElement>('details[data-dropdown][open]')];
+      document.addEventListener('click', event => {
+        const target = event.target as Element;
+        for (const menu of openMenus()) {
+          if (!menu.contains(target)) menu.open = false;
+        }
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        for (const menu of openMenus()) {
+          menu.open = false;
+          menu.querySelector('summary')?.focus();
+        }
+      });
     </script>
   </body>
 </html>

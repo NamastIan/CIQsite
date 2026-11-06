@@ -1,0 +1,155 @@
+---
+/**
+ * The 7-Day Conflict Prevention Challenge sign-up. A static site cannot store
+ * an email address: the sign-up opens an email to CONTACT.email, or links to
+ * a hosted sign-up form when SIGNUP.challengeFormUrl is set (an email tool,
+ * which can also send the seven daily emails automatically).
+ */
+import EmailForm from '../components/EmailForm.astro';
+import Icon from '../components/Icon.astro';
+import {LEVELS} from '../content/levels';
+import {SIGNUP} from '../content/site';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="7-Day Conflict Prevention Challenge"
+  description="A free seven-day challenge: one short reflection each day, one level of the Seven Levels Framework at a time. Joining welcomes you into the Conflict Intelligence Community."
+>
+  <header class="page-hero">
+    <div class="wrap split">
+      <div>
+        <p class="tag tag-free">Free</p>
+        <h1>7-Day Conflict Prevention Challenge</h1>
+        <p class="lede">
+          Seven days. Seven levels. One small reflection each day. A gentle way to notice how conflict begins, and what might shift if we meet it a little earlier, and a little
+          more kindly.
+        </p>
+        <ul class="ticks hero-ticks">
+          <li>A short reflection and practice each day, for seven days</li>
+          <li>Made for everyday life, on any phone</li>
+          <li>Joining welcomes you into the Conflict Intelligence Community as a General Member</li>
+        </ul>
+      </div>
+      <div class="card signup" id="join">
+        <h2>Join the Challenge</h2>
+        <p class="muted">We will send Day 1 when we receive your note, and one reflection each day after that.</p>
+        <EmailForm
+          id="challenge"
+          subject="Join the 7-Day Conflict Prevention Challenge"
+          messageLabel="A short note to join"
+          messageHint="Your name is enough. If you like, add a line on what brings you here."
+          template={'Please add me to the 7-Day Conflict Prevention Challenge.\n\nMy name: \nWhat brings me here (optional): '}
+          submitLabel="Join the Challenge"
+          formUrl={SIGNUP.challengeFormUrl}
+        />
+      </div>
+    </div>
+  </header>
+
+  <section class="band section" aria-labelledby="days-title">
+    <div class="wrap">
+      <div class="section-intro">
+        <h2 id="days-title">What the seven days hold</h2>
+        <p class="lede">Each day turns toward one level of the Seven Levels Framework, with a question to carry through the day.</p>
+      </div>
+      <ol class="days">
+        {
+          LEVELS.map(level => (
+            <li>
+              <span class="day-num" data-level={level.slug}>
+                <span class="visually-hidden">Day </span>
+                {level.number}
+              </span>
+              <div>
+                <h3>
+                  <span class="muted day-label" aria-hidden="true">
+                    Day {level.number} ·{' '}
+                  </span>
+                  {level.name}
+                </h3>
+                <p>{level.question}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="prevent-title">
+    <div class="wrap split">
+      <h2 id="prevent-title">Why prevention?</h2>
+      <div>
+        <p>
+          Many conflicts are easier to meet before they grow. A misunderstanding noticed on Monday rarely becomes the rupture of Friday. Prevention here does not mean avoiding
+          what is difficult. It means noticing earlier, and choosing more freely.
+        </p>
+        <p>
+          The Challenge is for anyone: practitioners curious about the Seven Levels, leaders, parents, and anyone who is living with a conflict right now and would like a quiet
+          place to begin.
+        </p>
+        <div class="actions">
+          <a class="button accent" href="#join">Join the Challenge <Icon name="arrow" /></a>
+          <a class="button ghost" href="/community/">About the Community</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero-ticks {
+    margin-top: 1.5rem;
+  }
+  .signup {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 48px -28px rgb(17 80 171 / 0.4);
+    scroll-margin-top: 90px;
+  }
+  .signup h2 {
+    font-size: 1.75rem;
+  }
+  .days {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  }
+  .days li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.25rem;
+    background: var(--bg);
+    border-radius: var(--radius);
+  }
+  .days h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+  }
+  .days p {
+    margin: 0;
+  }
+  .day-label {
+    font-weight: 500;
+  }
+  .day-num {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .day-num[data-level='space'],
+  .day-num[data-level='intuition'],
+  .day-num[data-level='spirituality'] {
+    color: var(--white);
+  }
+</style>

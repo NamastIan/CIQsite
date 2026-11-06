@@ -1,0 +1,77 @@
+---
+/**
+ * A simple form that sends an email: it opens the visitor's email app with
+ * the subject and message filled in, addressed to CONTACT.email. No script,
+ * nothing stored (a static site cannot receive a form post).
+ *
+ * `method="get"` with a `mailto:` action turns the fields named `subject` and
+ * `body` into `mailto:…?subject=…&body=…`, which every email app understands.
+ *
+ * When `formUrl` is an https:// link (a form hosted by the owner's email
+ * tool), the component shows a link to it instead.
+ */
+import {CONTACT} from '../content/site';
+
+interface Props {
+  id: string;
+  /** A fixed subject (hidden), or a list of topics to choose from. */
+  subject?: string;
+  topics?: string[];
+  messageLabel?: string;
+  messageHint?: string;
+  /** Prefilled message: a gentle template the visitor completes. */
+  template?: string;
+  submitLabel: string;
+  formUrl?: string;
+}
+
+const {id, subject, topics, messageLabel = 'Your message', messageHint, template = '', submitLabel, formUrl = ''} = Astro.props;
+const hosted = /^https:\/\//.test(formUrl) ? formUrl : null;
+---
+
+{
+  hosted ? (
+    <p>
+      <a class="button accent" href={hosted} rel="noopener noreferrer" target="_blank">
+        {submitLabel} <span class="small">(opens in a new tab)</span>
+      </a>
+    </p>
+  ) : (
+    <form class="form" action={`mailto:${CONTACT.email}`} method="get" novalidate>
+      {subject && <input type="hidden" name="subject" value={subject} />}
+      {topics && (
+        <div class="field">
+          <label for={`${id}-subject`}>What is this about?</label>
+          <select id={`${id}-subject`} name="subject">
+            {topics.map(topic => (
+              <option>{topic}</option>
+            ))}
+          </select>
+        </div>
+      )}
+      <div class="field">
+        <label for={`${id}-body`}>{messageLabel}</label>
+        {messageHint && (
+          <p class="hint" id={`${id}-hint`}>
+            {messageHint}
+          </p>
+        )}
+        <textarea id={`${id}-body`} name="body" rows="7" aria-describedby={messageHint ? `${id}-hint` : undefined}>{template}</textarea>
+      </div>
+      <div>
+        <button class="button accent" type="submit">
+          {submitLabel}
+        </button>
+        <p class="hint small muted form-note">
+          This opens your email app with your note ready to send to {CONTACT.email}. Nothing is sent until you press send.
+        </p>
+      </div>
+    </form>
+  )
+}
+
+<style>
+  .form-note {
+    margin-top: 0.75rem;
+  }
+</style>

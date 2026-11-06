@@ -1,0 +1,126 @@
+---
+/**
+ * The Seven Steps to Peace: a free 18-page illustrated picture book for parents
+ * and educators. Requested by email until SIGNUP.bookDownloadUrl holds a
+ * direct link to the PDF. Ian may then invite the reader, by hand, into the
+ * Parents and Educators space of the Community.
+ */
+import EmailForm from '../components/EmailForm.astro';
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import Placeholder from '../components/Placeholder.astro';
+import {SIGNUP} from '../content/site';
+import Base from '../layouts/Base.astro';
+import {bookJsonLd} from '../lib/json-ld';
+import classroom from '../assets/photos/classroom.jpg';
+import parent from '../assets/photos/parent-children.jpg';
+
+const download = /^https:\/\//.test(SIGNUP.bookDownloadUrl) ? SIGNUP.bookDownloadUrl : null;
+const jsonLd = bookJsonLd({
+  path: '/childrens-book/',
+  name: 'The Seven Steps to Peace',
+  description: 'An 18-page illustrated picture book that brings the Seven Levels of Conflict Intelligence to children, for parents and educators.',
+  pages: 18,
+  audience: 'Children, parents and educators',
+});
+---
+
+<Base
+  title="The Seven Steps to Peace: a free children’s book"
+  description="A free 18-page illustrated picture book for parents and educators that brings the Seven Levels of Conflict Intelligence to children, in words they can hold."
+  jsonLd={jsonLd}
+>
+  <header class="page-hero">
+    <div class="wrap split">
+      <div>
+        <p class="tag tag-free">Free picture book</p>
+        <h1>The Seven Steps to Peace</h1>
+        <p class="lede">
+          An 18-page illustrated picture book for children, and for the parents and educators who read with them. Seven gentle steps, one for each level, to help children
+          notice what happens inside and between us when we disagree.
+        </p>
+        <div class="actions">
+          {
+            download ? (
+              <a class="button accent" href={download}>
+                Download the book (PDF) <Icon name="arrow" />
+              </a>
+            ) : (
+              <a class="button accent" href="#request">
+                Request your free copy <Icon name="arrow" />
+              </a>
+            )
+          }
+        </div>
+      </div>
+      <Photo src={parent} alt="A smiling father carrying one child on his shoulders and holding another" width={560} height={420} sizes="(min-width: 900px) 540px, calc(100vw - 32px)" eager />
+    </div>
+  </header>
+
+  <section class="band section" aria-labelledby="inside-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="inside-title">Inside the book</h2>
+        <p>
+          Children meet conflict every day: on the playground, at the dinner table, between siblings and friends. The Seven Steps to Peace offers them a simple way to slow down
+          and look again, through seven steps that mirror the seven levels.
+        </p>
+        <ul class="ticks">
+          <li>18 illustrated pages, made to be read aloud</li>
+          <li>Seven steps, from finding a calm space to remembering what matters most</li>
+          <li>Questions at the end for parents and educators to explore with children</li>
+        </ul>
+      </div>
+      <Placeholder label="Placeholder: book cover and sample pages">
+        <p class="small">Add the cover illustration and two or three sample spreads here. They help parents and teachers see the tone of the book before requesting it.</p>
+        <p class="small">Please also confirm the three points listed beside this box.</p>
+      </Placeholder>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="educators-title">
+    <div class="wrap split">
+      <Photo src={classroom} alt="Children working side by side at tables in a busy classroom" width={560} height={400} sizes="(min-width: 900px) 540px, calc(100vw - 32px)" />
+      <div>
+        <h2 id="educators-title">For parents and educators</h2>
+        <p>
+          The book is a starting point for conversations at home and in the classroom. What might it look like for a child to name a feeling before acting on it? To ask a
+          friend what happened, before deciding who was wrong?
+        </p>
+        <p>
+          Parents and educators who request the book may be invited into a quieter space within the Conflict Intelligence Community, where we share ideas for bringing the
+          seven steps to life with children.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {
+    !download && (
+      <section class="band section" aria-labelledby="request-title">
+        <div class="wrap split">
+          <div>
+            <h2 id="request-title">Request your free copy</h2>
+            <p class="lede">Send us a short note and we will reply with the book.</p>
+          </div>
+          <div class="card" id="request">
+            <EmailForm
+              id="book"
+              subject="Request: The Seven Steps to Peace"
+              messageLabel="A short note"
+              messageHint="Your name, and whether you are a parent, an educator or both."
+              template={'Please send me The Seven Steps to Peace.\n\nMy name: \nI am a parent / an educator / both: '}
+              submitLabel="Request the book"
+            />
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  #request {
+    scroll-margin-top: 90px;
+  }
+</style>

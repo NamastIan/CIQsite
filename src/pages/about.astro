@@ -1,23 +1,152 @@
 ---
+/**
+ * About: Ian Renaud, author and guide, and the book Resolving From Within.
+ * Biography facts are placeholders: never invent credentials or history.
+ */
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import Placeholder from '../components/Placeholder.astro';
+import {SITE} from '../content/site';
 import Base from '../layouts/Base.astro';
-import {ABOUT} from '../content/site';
+import {bookJsonLd} from '../lib/json-ld';
+import lake from '../assets/photos/mountain-lake.jpg';
+
+const jsonLd = {
+  ...bookJsonLd({
+    path: '/about/',
+    name: 'Resolving From Within',
+    description: 'A book by Ian Renaud on understanding conflict from the inside.',
+    author: 'Ian Renaud',
+  }),
+  isAccessibleForFree: false,
+};
 ---
 
-<Base title={ABOUT.title} description={ABOUT.lede}>
-  <article class="wrap narrow section">
-    <h1>{ABOUT.title}</h1>
-    <p class="lede">{ABOUT.lede}</p>
-    {
-      ABOUT.sections.map(section => (
-        <section class="prose-section">
-          <h2>{section.heading}</h2>
-          <p>{section.body}</p>
-        </section>
-      ))
-    }
-    <div class="actions">
-      <a class="button" href="/contact/">Get in touch</a>
-      <a class="button ghost" href="/blog/">Read the blog</a>
+<Base title="About Ian Renaud" description="Ian Renaud is the author of Resolving From Within and the guide of Conflict Intelligence Training, an online school and community for Conflict Intelligence." jsonLd={jsonLd}>
+  <header class="page-hero">
+    <div class="wrap split split-wide-left">
+      <div>
+        <h1>About Conflict Intelligence Training</h1>
+        <p class="lede">
+          We are an online school and community for developing Conflict Intelligence. Our work is guided by Ian Renaud, author of <cite>Resolving From Within</cite>, and
+          shaped by everyone who joins us in it.
+        </p>
+      </div>
+      <Photo src={lake} alt="A calm mountain lake reflecting the forest and peaks around it" width={560} height={420} sizes="(min-width: 900px) 460px, calc(100vw - 32px)" eager />
     </div>
-  </article>
+  </header>
+
+  <section class="band section" aria-labelledby="ian-title">
+    <div class="wrap split">
+      <Placeholder label="Placeholder: a portrait of Ian Renaud">
+        <div class="portrait" role="img" aria-label="Space for a portrait of Ian Renaud">
+          <span aria-hidden="true">IR</span>
+        </div>
+        <p class="small">A portrait of Ian goes here: a photo at least 900 by 1100 pixels.</p>
+      </Placeholder>
+      <div>
+        <h2 id="ian-title">Ian Renaud, author and guide</h2>
+        <p>
+          Ian is the author of <cite>Resolving From Within</cite> and the guide of Conflict Intelligence Training. He leads the Seven Levels Practitioner Certification and hosts
+          the monthly live Q&amp;A in the Conflict Intelligence Community, where he maps the conflict situations members bring onto the Seven Levels.
+        </p>
+        <p>
+          His invitation is a simple one: that conflict might be met with curiosity, and understood from the inside, before we rush to resolve it.
+        </p>
+        <Placeholder label="Placeholder: Ian’s background, in his own words">
+          <p class="small">
+            Two or three short paragraphs on Ian’s path into this work: his background, the people and communities he has worked with, and what brought him to Conflict
+            Intelligence. Please write or approve this text; we have not invented any of it.
+          </p>
+        </Placeholder>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="book-title">
+    <div class="wrap split">
+      <div class="book-cover" aria-hidden="true">
+        <span class="book-title">Resolving From Within</span>
+        <span class="book-author">Ian Renaud</span>
+      </div>
+      <div>
+        <h2 id="book-title">The book: Resolving From Within</h2>
+        <p class="lede">
+          <cite>Resolving From Within</cite> explores what becomes possible when we turn toward conflict from the inside, beginning with what is happening within us before
+          we try to change what is happening around us.
+        </p>
+        <p>Every participant in the Seven Levels Practitioner Certification receives a physical copy, shipped before the first session.</p>
+        <Placeholder label="Placeholder: book details and where to buy">
+          <p class="small">Add the publication year, a short description in Ian’s words, a cover image, and a link to where readers can buy the book.</p>
+        </Placeholder>
+      </div>
+    </div>
+  </section>
+
+  <section class="band section" aria-labelledby="namaste-title">
+    <div class="wrap split">
+      <h2 id="namaste-title">Part of {SITE.parent}</h2>
+      <div>
+        <p>
+          Conflict Intelligence Training is Path B of {SITE.parent}. Here, our focus is Conflict Intelligence: exploring and developing it through the Seven Levels Framework,
+          with practitioners, leaders, individuals and families.
+        </p>
+        <h3>What we hold to</h3>
+        <ul class="ticks">
+          <li>We invite rather than prescribe. Every practice here is an offering, never a rule.</li>
+          <li>We take our time. Depth asks for patience, and conflict asks for care.</li>
+          <li>We are honest about what we offer. Our certification is our own; we do not claim outside accreditation.</li>
+          <li>We learn together. The Community is part of the school, not an extra.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow center">
+      <h2>Where would you like to begin?</h2>
+      <div class="actions">
+        <a class="button accent" href="/challenge/">Begin the 7-Day Challenge <Icon name="arrow" /></a>
+        <a class="button ghost" href="/contact/">Write to us</a>
+      </div>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .portrait {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 0.75rem;
+    border-radius: var(--radius);
+    background: #ece3f2;
+    color: var(--purple);
+    font-size: 3rem;
+    font-weight: 650;
+  }
+  .book-cover {
+    display: grid;
+    align-content: space-between;
+    width: min(100%, 300px);
+    aspect-ratio: 2 / 3;
+    justify-self: center;
+    padding: 2rem 1.75rem;
+    border-radius: 4px 12px 12px 4px;
+    background: var(--primary);
+    color: var(--white);
+    box-shadow:
+      inset 10px 0 0 rgb(0 0 0 / 0.15),
+      0 24px 40px -20px rgb(17 80 171 / 0.6);
+  }
+  .book-title {
+    font-size: 2rem;
+    font-weight: 650;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .book-author {
+    font-weight: 500;
+    color: #ffd2b5;
+  }
+</style>

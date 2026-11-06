@@ -1,0 +1,34 @@
+---
+/**
+ * An illustration of the Conflict Exploration Kit's card deck: seven cards
+ * fanned in the level colours. REPLACE with a product photo when one exists
+ * (a file in src/assets/, rendered with <Picture>).
+ */
+import {LEVELS} from '../content/levels';
+
+const angles = [-27, -18, -9, 0, 9, 18, 27];
+---
+
+<svg class="deck" viewBox="0 0 520 380" width="520" height="380" role="img" aria-label="Illustration of the Conflict Exploration Kit card deck: seven cards fanned out, one in each level colour">
+  <ellipse cx="260" cy="352" rx="200" ry="14" fill="#1150ab" fill-opacity="0.08"></ellipse>
+  {
+    LEVELS.map((level, i) => (
+      <g transform={`rotate(${angles[i]} 260 360)`}>
+        <rect x="190" y="70" width="140" height="210" rx="12" fill="#ffffff" stroke="#d9e0ea" />
+        <rect x="198" y="78" width="124" height="194" rx="8" fill={level.color} />
+        <circle cx="260" cy="150" r="26" fill="#ffffff" fill-opacity="0.9" />
+        <circle cx="260" cy="150" r="9" fill={level.color} />
+        <rect x="222" y="200" width="76" height="8" rx="4" fill="#ffffff" fill-opacity="0.85" />
+        <rect x="234" y="216" width="52" height="6" rx="3" fill="#ffffff" fill-opacity="0.6" />
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .deck {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

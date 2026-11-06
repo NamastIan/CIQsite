@@ -1,9 +1,11 @@
 ---
 /**
- * Contact. A static site cannot receive a form post, so the page offers an
- * email link (`mailto:`) and, when `CONTACT.formUrl` is set, a link to a form
- * the owner hosts elsewhere. A form that STORES messages needs the app template.
+ * Contact. A static site cannot receive a form post: the form opens the
+ * visitor's email app addressed to CONTACT.email, and CONTACT.formUrl (when
+ * set) links to a form the owner hosts elsewhere.
  */
+import EmailForm from '../components/EmailForm.astro';
+import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import {CONTACT} from '../content/site';
 
@@ -12,16 +14,74 @@ const formUrl = /^https:\/\//.test(CONTACT.formUrl) ? CONTACT.formUrl : null;
 ---
 
 <Base title={CONTACT.title} description={CONTACT.lede}>
-  <section class="wrap narrow section">
-    <h1>{CONTACT.title}</h1>
-    <p class="lede">{CONTACT.lede}</p>
-    <div class="card contact-card">
-      <h2>Email us</h2>
-      <p><a href={mailto}>{CONTACT.email}</a></p>
-      <div class="actions">
-        <a class="button" href={mailto}>Write an email</a>
-        {formUrl && <a class="button ghost" href={formUrl} rel="noopener">Use the contact form</a>}
+  <section class="page-hero">
+    <div class="wrap split">
+      <div>
+        <h1>{CONTACT.title}</h1>
+        <p class="lede">{CONTACT.lede}</p>
+        <div class="direct">
+          <h2>Write to us directly</h2>
+          <p>
+            <a href={mailto} class="text-link"><Icon name="mail" /> {CONTACT.email}</a>
+          </p>
+          {
+            formUrl && (
+              <p>
+                <a href={formUrl} rel="noopener noreferrer" target="_blank">
+                  Use our contact form (opens in a new tab)
+                </a>
+              </p>
+            )
+          }
+        </div>
+        <div class="direct">
+          <h2>Looking for something specific?</h2>
+          <ul class="quick">
+            <li><a href="/challenge/">Joining the 7-Day Challenge</a></li>
+            <li><a href="/certification/">The Practitioner Certification</a></li>
+            <li><a href="/exploration-kit/">The Conflict Exploration Kit</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="card contact-card">
+        <h2>Send a message</h2>
+        <EmailForm
+          id="contact"
+          topics={['A general question', 'The Practitioner Certification', 'The Conflict Exploration Kit or an order', 'The children’s book', 'Bringing CIQ to my team or organization', 'Something else']}
+          messageHint="Your name, and anything you would like us to know."
+          template={'My name: \n\n'}
+          submitLabel="Write the email"
+        />
       </div>
     </div>
   </section>
 </Base>
+
+<style>
+  .direct {
+    margin-top: 2.25rem;
+  }
+  .direct h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
+  }
+  .text-link :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+  .quick {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  .quick li {
+    padding-block: 0.3rem;
+  }
+  .contact-card {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 48px -28px rgb(17 80 171 / 0.4);
+  }
+  .contact-card h2 {
+    font-size: 1.6rem;
+  }
+</style>

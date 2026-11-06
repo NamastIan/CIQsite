@@ -1,0 +1,144 @@
+---
+/**
+ * The Seven Levels as a mandala: seven petals, one per level in its colour,
+ * overlapping around a still centre. Pure SVG, no script.
+ *
+ *   <Mandala linked />              petals link to each level's page
+ *   <Mandala active="identity" />   one level highlighted (on a level page)
+ *   <Mandala animate />             petals unfold once on load (not with reduced motion)
+ *
+ * The level names are never carried by colour alone: linked petals have an
+ * accessible name, and pages show the names in text beside the mandala.
+ */
+import {LEVELS, levelHref} from '../content/levels';
+
+interface Props {
+  linked?: boolean;
+  active?: string;
+  animate?: boolean;
+  class?: string;
+  /** Accessible name when the mandala is a picture (not linked). */
+  label?: string;
+}
+
+const {linked = false, active, animate = false, class: className, label = 'A mandala of the Seven Levels: Space, Emotions, Identity, Relationships, Expression, Intuition and Spirituality'} = Astro.props;
+const step = 360 / LEVELS.length;
+const petal = 'M0 0 C 62 -46 66 -132 0 -178 C -66 -132 -62 -46 0 0 Z';
+const inner = 'M0 -22 C 20 -40 22 -70 0 -92 C -22 -70 -20 -40 0 -22 Z';
+---
+
+<svg
+  class:list={['mandala', animate && 'is-animated', active && 'has-active', className]}
+  viewBox="-200 -200 400 400"
+  width="400"
+  height="400"
+  role={linked ? 'group' : 'img'}
+  aria-label={linked ? 'The Seven Levels: choose a level' : label}
+>
+  <circle class="ring" r="190" />
+  <circle class="ring" r="140" />
+  <g class="petals">
+    {
+      LEVELS.map((level, i) => {
+        const shape = (
+          <g transform={`rotate(${i * step})`}>
+            <path class:list={['petal', active === level.slug && 'is-active']} d={petal} fill={level.color} />
+          </g>
+        );
+        return linked ? (
+          <a href={levelHref(level)} aria-label={`Level ${level.number}: ${level.name}`} class="petal-link">
+            <title>{`Level ${level.number}: ${level.name}`}</title>
+            {shape}
+          </a>
+        ) : (
+          shape
+        );
+      })
+    }
+  </g>
+  <g class="inner" aria-hidden="true">
+    {LEVELS.map((level, i) => <path d={inner} transform={`rotate(${i * step + step / 2})`} fill={level.color} />)}
+  </g>
+  <circle class="core" r="30" />
+  <circle class="core-dot" r="9" />
+</svg>
+
+<style>
+  .mandala {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .ring {
+    fill: none;
+    stroke: #c9d3e3;
+    stroke-width: 1;
+  }
+  .petal {
+    fill-opacity: 0.82;
+    mix-blend-mode: multiply;
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    transition:
+      fill-opacity 0.25s ease,
+      transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .has-active .petal {
+    fill-opacity: 0.18;
+  }
+  .has-active .petal.is-active {
+    fill-opacity: 0.95;
+  }
+  .inner path {
+    fill-opacity: 0.9;
+  }
+  .core {
+    fill: #ffffff;
+  }
+  .core-dot {
+    fill: #1150ab;
+  }
+  .petal-link {
+    cursor: pointer;
+    outline: none;
+  }
+  .petal-link:hover .petal,
+  .petal-link:focus-visible .petal {
+    fill-opacity: 1;
+    transform: scale(1.05);
+  }
+  .petal-link:focus-visible .petal {
+    stroke: #252727;
+    stroke-width: 3;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .is-animated .petal {
+      animation: unfold 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .is-animated .petals > :nth-child(2) .petal {
+      animation-delay: 0.07s;
+    }
+    .is-animated .petals > :nth-child(3) .petal {
+      animation-delay: 0.14s;
+    }
+    .is-animated .petals > :nth-child(4) .petal {
+      animation-delay: 0.21s;
+    }
+    .is-animated .petals > :nth-child(5) .petal {
+      animation-delay: 0.28s;
+    }
+    .is-animated .petals > :nth-child(6) .petal {
+      animation-delay: 0.35s;
+    }
+    .is-animated .petals > :nth-child(7) .petal {
+      animation-delay: 0.42s;
+    }
+  }
+  @keyframes unfold {
+    from {
+      transform: scale(0.55) rotate(-18deg);
+      fill-opacity: 0.25;
+    }
+  }
+</style>

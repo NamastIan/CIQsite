@@ -1,66 +1,351 @@
 ---
 /**
- * Home: sections from `src/content/site.ts`, and the three latest posts from
- * `src/content/blog/`. Fully static: no JavaScript of its own.
+ * Home: what Conflict Intelligence is, the Seven Levels, the three-tier
+ * "Your Path", who we walk with, the Community and the latest resources.
+ * Static: the mandala animates with CSS only.
  */
+import Icon from '../components/Icon.astro';
+import Mandala from '../components/Mandala.astro';
+import Photo from '../components/Photo.astro';
+import Placeholder from '../components/Placeholder.astro';
 import PostCard from '../components/PostCard.astro';
-import {HOME} from '../content/site';
+import YourPath from '../components/YourPath.astro';
+import {LEVELS, levelHref} from '../content/levels';
+import {SITE} from '../content/site';
 import Base from '../layouts/Base.astro';
 import {publishedPosts} from '../lib/posts';
+import classroom from '../assets/photos/classroom.jpg';
+import community from '../assets/photos/community.jpg';
+import forestPath from '../assets/photos/forest-path.jpg';
+import leaders from '../assets/photos/leaders.jpg';
+import practitioners from '../assets/photos/practitioners-table.jpg';
 
 const latest = (await publishedPosts()).slice(0, 3);
+
+const audiences = [
+  {
+    title: 'For practitioners',
+    who: 'Mediators, coaches, ombuds, HR and conflict professionals',
+    body: 'We honour the skills you already carry and invite a deeper map beneath them: one that helps us see why a process stalls, and where it might open.',
+    link: {label: 'Begin with Beyond Resolution', href: '/beyond-resolution/'},
+    photo: practitioners,
+    alt: 'Colleagues in conversation around a table with laptops and notebooks',
+  },
+  {
+    title: 'For people-first leaders',
+    who: 'Leaders who want teams that can disagree well',
+    body: 'What if the tension in a team were information rather than a threat? We explore how leaders might hold conflict so that trust grows through it.',
+    link: {label: 'Explore the Seven Levels', href: '/seven-levels/'},
+    photo: leaders,
+    alt: 'Two colleagues sharing a high five across a desk in a bright office',
+  },
+  {
+    title: 'If you are in conflict right now',
+    who: 'For anyone living with a difficult situation',
+    body: 'Sometimes conflict is not a topic to study. It is the thing keeping us awake. The 7-Day Challenge offers a gentle place to begin, one small reflection each day.',
+    link: {label: 'Start the 7-Day Challenge', href: '/challenge/'},
+    photo: forestPath,
+    alt: 'A quiet path leading through a sunlit forest',
+  },
+  {
+    title: 'For parents and educators',
+    who: 'For the people helping children find their way',
+    body: 'The Seven Steps to Peace is a free illustrated picture book that brings the Seven Levels to children, in words they can hold.',
+    link: {label: 'Get the children’s book', href: '/childrens-book/'},
+    photo: classroom,
+    alt: 'Children working together at tables in a classroom',
+  },
+];
 ---
 
-<Base>
+<Base description={SITE.description}>
   <section class="hero">
-    <div class="wrap center">
-      <p class="eyebrow">{HOME.hero.eyebrow}</p>
-      <h1>{HOME.hero.title}</h1>
-      <p class="lede">{HOME.hero.body}</p>
-      <div class="actions">
-        <a class="button" href={HOME.hero.primary.href}>{HOME.hero.primary.label}</a>
-        <a class="button ghost" href={HOME.hero.secondary.href}>{HOME.hero.secondary.label}</a>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>Conflict has something to teach us.</h1>
+        <p class="hero-tagline">{SITE.tagline}</p>
+        <p class="lede">
+          Conflict Intelligence Training is an online school and community for developing Conflict Intelligence (CIQ): the capacity to understand conflict from the inside, and to
+          meet it with clarity and care. We explore it through seven levels, from Space to Spirituality.
+        </p>
+        <div class="actions">
+          <a class="button accent" href="/challenge/">Begin the 7-Day Challenge <Icon name="arrow" /></a>
+          <a class="button ghost" href="/what-is-conflict-intelligence/">What is Conflict Intelligence?</a>
+        </div>
+        <p class="small muted hero-note">The Challenge is free, and it is how we welcome new members into the Conflict Intelligence Community.</p>
+      </div>
+      <div class="hero-art">
+        <Mandala linked animate />
       </div>
     </div>
   </section>
 
-  <section class="wrap section" aria-labelledby="features-title">
-    <h2 id="features-title" class="center">{HOME.features.title}</h2>
-    <div class="grid grid-3">
-      {
-        HOME.features.items.map(feature => (
-          <div class="card">
-            <h3>{feature.title}</h3>
-            <p class="muted">{feature.body}</p>
-          </div>
-        ))
-      }
+  <section class="band section" aria-labelledby="levels-title">
+    <div class="wrap">
+      <div class="split split-wide-left section-intro">
+        <h2 id="levels-title">Seven levels of every conflict</h2>
+        <p class="lede">
+          Every conflict lives on more than one level at once. When we learn to notice which level is speaking, what felt tangled often becomes something we can work with.
+        </p>
+      </div>
+      <ol class="level-list">
+        {
+          LEVELS.map(level => (
+            <li>
+              <a href={levelHref(level)} class="level-item">
+                <span class="level-bar" data-level={level.slug} />
+                <span class="level-num">Level {level.number}</span>
+                <span class="level-name">{level.name}</span>
+                <span class="level-q">{level.question}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+      <p><a class="text-link" href="/seven-levels/">Explore the Seven Levels Framework <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="path-title">
+    <div class="wrap">
+      <div class="section-intro center">
+        <h2 id="path-title">Your Path</h2>
+        <p class="lede">There is no single right way in. We offer three tiers, and each one is an invitation rather than a requirement. Where might you like to begin?</p>
+      </div>
+      <YourPath headingLevel="h3" />
+      <p class="center"><a class="text-link" href="/your-path/">See every step on Your Path <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <section class="band section" aria-labelledby="who-title">
+    <div class="wrap">
+      <div class="section-intro">
+        <h2 id="who-title">Who we walk with</h2>
+        <p class="lede">People come to Conflict Intelligence from many directions. We meet each one where they are.</p>
+      </div>
+      <div class="audiences">
+        {
+          audiences.map(item => (
+            <article class="audience">
+              <Photo src={item.photo} alt={item.alt} width={560} height={360} sizes="(min-width: 900px) 540px, calc(100vw - 32px)" />
+              <div>
+                <h3>{item.title}</h3>
+                <p class="muted small audience-who">{item.who}</p>
+                <p>{item.body}</p>
+                <a class="text-link" href={item.link.href}>
+                  {item.link.label} <Icon name="arrow" />
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="voices-title">
+    <div class="wrap">
+      <h2 id="voices-title" class="section-intro">In their words</h2>
+      <div class="grid grid-3">
+        {
+          [1, 2, 3].map(n => (
+            <Placeholder label={`Placeholder testimonial ${n}: replace with a real quote, used with permission`}>
+              <blockquote class="quote">
+                <p>A short reflection from a participant about what changed in how they meet conflict.</p>
+                <footer>Name, role (with permission)</footer>
+              </blockquote>
+            </Placeholder>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band-navy section" aria-labelledby="community-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="community-title">A community, built in</h2>
+        <p class="lede">
+          The Conflict Intelligence Community lives here, inside this site, not somewhere else. It is a place to practise, to ask, and to be accompanied.
+        </p>
+        <ul class="ticks community-ticks">
+          <li>A monthly live Q&amp;A where Ian maps conflict situations members submit onto the Seven Levels</li>
+          <li>Discussion spaces, a resource library and member profiles</li>
+          <li>Spaces for Kit Owners and for Certified Practitioners</li>
+        </ul>
+        <div class="actions">
+          <a class="button accent" href="/community/">About the Community</a>
+        </div>
+      </div>
+      <Photo src={community} alt="A group of friends sitting side by side with their arms around one another, looking out at the hills" width={600} height={440} sizes="(min-width: 900px) 560px, calc(100vw - 32px)" />
     </div>
   </section>
 
   {
     latest.length > 0 && (
-      <section class="wrap section" aria-labelledby="latest-title">
-        <div class="section-head">
-          <h2 id="latest-title">Latest from the blog</h2>
-          <a href="/blog/">All posts →</a>
-        </div>
-        <div class="grid grid-3">
-          {latest.map(post => (
-            <PostCard post={post} />
-          ))}
+      <section class="section" aria-labelledby="latest-title">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 id="latest-title">Resources and reflections</h2>
+            <a class="text-link" href="/blog/">
+              All resources <Icon name="arrow" />
+            </a>
+          </div>
+          <div class="grid grid-3">
+            {latest.map(post => (
+              <PostCard post={post} />
+            ))}
+          </div>
         </div>
       </section>
     )
   }
 
-  <section class="wrap section">
-    <div class="card cta">
-      <div>
-        <h2>{HOME.cta.title}</h2>
-        <p class="muted">{HOME.cta.body}</p>
+  <section class="section closing band" aria-labelledby="closing-title">
+    <div class="narrow center">
+      <h2 id="closing-title">What might your next conflict be asking of you?</h2>
+      <p class="lede">Seven days, seven levels, one small reflection at a time. We would be glad to walk alongside you.</p>
+      <div class="actions">
+        <a class="button accent" href="/challenge/">Begin the 7-Day Challenge <Icon name="arrow" /></a>
+        <a class="button ghost" href="/your-path/">See Your Path</a>
       </div>
-      <a class="button" href="/contact/">Contact us</a>
     </div>
   </section>
 </Base>
+
+<style>
+  .hero {
+    padding-block: clamp(2.5rem, 6vw, 5.5rem) clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .hero-tagline {
+    margin: 0 0 1rem;
+    font-size: clamp(1.25rem, 1vw + 1rem, 1.6rem);
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+  .hero-note {
+    margin-top: 1rem;
+  }
+  .hero-art {
+    width: min(100%, 520px);
+    justify-self: center;
+  }
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .level-list {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  }
+  .level-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    height: 100%;
+    padding: 0 0 1rem;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    transition:
+      transform 0.25s var(--ease-out),
+      box-shadow 0.25s ease;
+  }
+  .level-item > span:not(.level-bar) {
+    padding-inline: 1rem;
+  }
+  .level-item:hover {
+    color: var(--ink);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px -18px rgb(17 80 171 / 0.4);
+  }
+  .level-bar {
+    display: block;
+    height: 8px;
+    margin-bottom: 0.8rem;
+  }
+  .level-num {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .level-name {
+    font-size: 1.2rem;
+    font-weight: 650;
+    color: var(--primary);
+    letter-spacing: -0.01em;
+  }
+  .level-q {
+    font-size: 0.925rem;
+    line-height: 1.4;
+  }
+
+  .audiences {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+  .audience {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+  .audience h3 {
+    margin-bottom: 0.2rem;
+  }
+  .audience-who {
+    margin-bottom: 0.75rem;
+  }
+  @media (min-width: 900px) {
+    .audiences {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 3rem;
+    }
+    .audience:nth-child(even) {
+      margin-top: 4rem;
+    }
+  }
+
+  .community-ticks {
+    margin-top: 1.5rem;
+  }
+  .community-ticks li::before {
+    background: rgb(255 255 255 / 0.18);
+  }
+  .community-ticks li::after {
+    border-color: var(--white);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .level-item {
+      transition: none;
+    }
+    .level-item:hover {
+      transform: none;
+    }
+  }
+</style>

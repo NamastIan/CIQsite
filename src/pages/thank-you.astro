@@ -1,0 +1,45 @@
+---
+/**
+ * After a payment. A static page cannot check the payment, so it promises
+ * nothing beyond the receipt. It asks for the shipping address by email (for
+ * the card deck and the book), in case the checkout did not collect it.
+ * Kept out of search: noindex here, and '/thank-you/' in EXCLUDE (sitemap.xml.ts).
+ */
+import Icon from '../components/Icon.astro';
+import Base from '../layouts/Base.astro';
+import {CONTACT} from '../content/site';
+
+const shipping = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Shipping address for my order')}&body=${encodeURIComponent(
+  'My name:\nThe name on my receipt (if different):\nShipping address:\n\nStreet:\nCity:\nProvince or state:\nPostal or ZIP code:\nCountry:\n'
+)}`;
+---
+
+<Base title="Thank you" description="Your payment went through." noindex>
+  <section class="section">
+    <div class="narrow center">
+      <h1>Thank you</h1>
+      <p class="lede">Your payment went through, and your receipt is on its way by email. We are glad you are here.</p>
+      <div class="card ship">
+        <h2>Where should we send your package?</h2>
+        <p>The Conflict Exploration Kit deck, and the book for Certification participants, are shipped by post. If the checkout did not ask for your address, you might send it to us here.</p>
+        <a class="button accent" href={shipping}>Send my shipping address <Icon name="arrow" /></a>
+      </div>
+      <div class="actions">
+        <a class="button ghost" href="/community/">About the Community</a>
+        <a class="button ghost" href="/">Back to home</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ship {
+    margin-top: 2.5rem;
+    text-align: left;
+    background: var(--surface);
+    border: 0;
+  }
+  .ship h2 {
+    font-size: 1.4rem;
+  }
+</style>

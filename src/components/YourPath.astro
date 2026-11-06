@@ -1,0 +1,180 @@
+---
+/**
+ * The three-tier "Your Path": Explore (free), Build Skills, Go Deep.
+ * Used on the home page and on /your-path/. Prices come from PRICES in
+ * src/content/site.ts (they must match the Payments tab).
+ */
+import {CERTIFICATION, PRICES} from '../content/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** The tier titles' level: h3 under a section's h2, h2 directly under a page's h1. */
+  headingLevel?: 'h2' | 'h3';
+}
+const {headingLevel: H = 'h3'} = Astro.props;
+const first = CERTIFICATION.cohorts.find(c => c.first);
+---
+
+<ol class="path">
+  <li class="tier tier-explore">
+    <p class="tier-step"><span class="dot" aria-hidden="true"></span> Explore</p>
+    <H class="tier-title">Begin with a free first step</H>
+    <p class="tag tag-free">Free</p>
+    <ul class="offers">
+      <li>
+        <a href="/challenge/">7-Day Conflict Prevention Challenge</a>
+        <span>One small reflection a day, one level at a time. Joining welcomes you into the Community.</span>
+      </li>
+      <li>
+        <a href="/beyond-resolution/">Beyond Resolution</a>
+        <span>A Conflict Intelligence Series for Practitioners.</span>
+      </li>
+      <li>
+        <a href="/childrens-book/">The Seven Steps to Peace</a>
+        <span>An 18-page illustrated picture book for parents and educators.</span>
+      </li>
+    </ul>
+  </li>
+
+  <li class="tier tier-build">
+    <p class="tier-step"><span class="dot" aria-hidden="true"></span> Build Skills</p>
+    <H class="tier-title">Bring the levels into your hands</H>
+    <p class="tag">{PRICES.kit.amount} {PRICES.currency}</p>
+    <ul class="offers">
+      <li>
+        <a href="/exploration-kit/">Conflict Exploration Kit</a>
+        <span>A physical card deck and a digital suite for exploring any conflict through the Seven Levels.</span>
+      </li>
+    </ul>
+    <a class="text-link" href="/exploration-kit/">See the Kit <Icon name="arrow" /></a>
+  </li>
+
+  <li class="tier tier-deep">
+    <p class="tier-step"><span class="dot" aria-hidden="true"></span> Go Deep</p>
+    <H class="tier-title">Become a Certified Seven Levels Practitioner</H>
+    <p class="tag">{PRICES.certificationFull.amount} or {PRICES.certificationPlan.count} × {PRICES.certificationPlan.amount} {PRICES.currency}</p>
+    <ul class="offers">
+      <li>
+        <a href="/certification/">Seven Levels Practitioner Certification</a>
+        <span>{CERTIFICATION.hours} hours across {CERTIFICATION.sessions} live virtual {CERTIFICATION.day} sessions{first && `. First cohort: ${first.label}`}.</span>
+      </li>
+    </ul>
+    <a class="text-link" href="/certification/">Explore Certification <Icon name="arrow" /></a>
+  </li>
+</ol>
+
+<style>
+  .path {
+    position: relative;
+    display: grid;
+    gap: 1.25rem;
+    margin: 0 0 2rem;
+    padding: 0;
+    list-style: none;
+  }
+  .tier {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .tier-build {
+    background: var(--surface);
+  }
+  .tier-deep {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+  }
+  .tier-step {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    background: var(--bg);
+  }
+  .tier-build .dot {
+    background: var(--accent);
+  }
+  .tier-deep .dot {
+    background: var(--accent);
+    border-color: var(--white);
+  }
+  .tier-title {
+    font-size: clamp(1.35rem, 1vw + 1rem, 1.7rem);
+  }
+  .tier-deep .tier-title,
+  .tier-deep .tier-step,
+  .tier-deep a {
+    color: var(--white);
+  }
+  .tier-deep .tag {
+    background: rgb(255 255 255 / 0.16);
+    color: var(--white);
+  }
+  .tier-deep :focus-visible {
+    outline-color: var(--white);
+  }
+  .offers {
+    display: grid;
+    gap: 1rem;
+    margin: 0.25rem 0 1rem;
+    padding: 0;
+    list-style: none;
+    flex: 1;
+    align-content: start;
+  }
+  .offers li {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .offers a {
+    font-weight: 650;
+    font-size: 1.05rem;
+  }
+  .offers span {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .tier-explore .offers span,
+  .tier-build .offers span {
+    color: var(--muted);
+  }
+  .tier-deep .offers span {
+    color: #dbe6f7;
+  }
+  @media (min-width: 900px) {
+    .path {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .path::before {
+      content: '';
+      position: absolute;
+      top: calc(clamp(1.5rem, 3vw, 2.25rem) + 0.55rem);
+      left: 2rem;
+      right: 2rem;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 14px);
+      opacity: 0.55;
+    }
+    .tier-step {
+      position: relative;
+      z-index: 1;
+    }
+  }
+</style>

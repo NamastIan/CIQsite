@@ -1,0 +1,12 @@
+---
+/** The small seven-petal mark beside the site name. Decorative: the name is written next to it. */
+import {LEVELS} from '../content/levels';
+
+const step = 360 / LEVELS.length;
+---
+
+<svg viewBox="-50 -50 100 100" width="36" height="36" aria-hidden="true" focusable="false">
+  {LEVELS.map((level, i) => <path d="M0 0 C 16 -12 17 -34 0 -46 C -17 -34 -16 -12 0 0 Z" transform={`rotate(${i * step})`} fill={level.color} fill-opacity="0.85" />)}
+  <circle r="8" fill="#ffffff" />
+  <circle r="3" fill="#1150ab" />
+</svg>

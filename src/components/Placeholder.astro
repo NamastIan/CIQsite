@@ -1,0 +1,17 @@
+---
+/**
+ * A clearly marked placeholder: copy or social proof the owner must replace
+ * (or delete) before the page goes live. Never invent testimonials, names or
+ * statistics: these boxes hold the place until real ones exist.
+ */
+interface Props {
+  label?: string;
+  class?: string;
+}
+const {label = 'Placeholder: replace before publishing', class: className} = Astro.props;
+---
+
+<div class:list={['placeholder', className]}>
+  <p class="placeholder-label">{label}</p>
+  <slot />
+</div>

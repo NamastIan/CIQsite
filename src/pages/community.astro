@@ -1,0 +1,202 @@
+---
+/**
+ * The Conflict Intelligence Community: what it is, its four access tiers, and
+ * how people join. The member area itself (sign-in, tiers, gated content,
+ * cohort groups) needs the Astro app template with a Site Database: this
+ * static site describes it and offers the way in (the 7-Day Challenge).
+ */
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import Base from '../layouts/Base.astro';
+import community from '../assets/photos/community.jpg';
+
+const tiers = [
+  {
+    name: 'General Members',
+    how: 'Joined through the 7-Day Conflict Prevention Challenge',
+    body: 'Everyone who takes the Challenge is welcomed into the Community: discussion spaces, the monthly live Q&A and the resource library.',
+  },
+  {
+    name: 'Parents and Educators',
+    how: 'By invitation, after the children’s book',
+    body: 'A quieter space for those bringing The Seven Steps to Peace to children at home and in the classroom.',
+  },
+  {
+    name: 'Kit Owners',
+    how: 'After purchasing the Conflict Exploration Kit',
+    body: 'A Kit Owners webinar, a visible Kit Owner badge, and a space to share how the deck is being used.',
+  },
+  {
+    name: 'Certified Practitioners',
+    how: 'On graduating from the Practitioner Certification',
+    body: 'A badge and a space of peers who share the Seven Levels as a common language for their practice.',
+  },
+];
+---
+
+<Base
+  title="Conflict Intelligence Community"
+  description="The Conflict Intelligence Community is built into this site: discussion spaces, a monthly live Q&A with Ian Renaud, a resource library and member profiles."
+>
+  <header class="page-hero">
+    <div class="wrap split">
+      <div>
+        <h1>Conflict Intelligence Community</h1>
+        <p class="lede">
+          Conflict Intelligence grows best in company. The Community is a place to practise the Seven Levels together, to bring real situations, and to be accompanied by
+          others who are doing the same work.
+        </p>
+        <div class="actions">
+          <a class="button accent" href="/challenge/">Join through the 7-Day Challenge <Icon name="arrow" /></a>
+        </div>
+        <p class="small muted joining">The member area is being prepared inside this site. Everyone who joins the Challenge will be welcomed in when it opens.</p>
+      </div>
+      <Photo src={community} alt="Friends sitting side by side with their arms around one another, looking toward the hills" width={560} height={420} sizes="(min-width: 900px) 540px, calc(100vw - 32px)" eager />
+    </div>
+  </header>
+
+  <section class="band section" aria-labelledby="inside-title">
+    <div class="wrap">
+      <h2 id="inside-title" class="section-intro">What happens in the Community</h2>
+      <div class="features">
+        <article class="feature-lead">
+          <h3>A monthly live Q&amp;A with Ian</h3>
+          <p>
+            Each month, members submit conflict situations they are living with or working on. In a live session, Ian maps them onto the Seven Levels, showing which levels are
+            active and where an opening might be found. Many people find that seeing someone else’s situation mapped helps them see their own.
+          </p>
+        </article>
+        <div class="feature-rest">
+          <article>
+            <h3>Discussion spaces</h3>
+            <p>Conversations organized around the seven levels and around practice: questions, reflections and what we are learning.</p>
+          </article>
+          <article>
+            <h3>A resource library</h3>
+            <p>Recordings, guides and practices gathered in one place, growing as the Community grows.</p>
+          </article>
+          <article>
+            <h3>Member profiles</h3>
+            <p>A way to find one another: practitioners, leaders, parents, educators and seekers.</p>
+          </article>
+          <article>
+            <h3>Cohort spaces</h3>
+            <p>Each Certification cohort has a private, time-boxed group for session debriefs, which rolls into the Certified Practitioners space at graduation.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tiers-title">
+    <div class="wrap">
+      <div class="section-intro">
+        <h2 id="tiers-title">Four ways of belonging</h2>
+        <p class="lede">Everyone belongs to the Community. Some spaces open as people walk further along Your Path.</p>
+      </div>
+      <ol class="tiers">
+        {
+          tiers.map((tier, i) => (
+            <li>
+              <span class="tier-ring" aria-hidden="true">
+                {i + 1}
+              </span>
+              <div>
+                <h3>{tier.name}</h3>
+                <p class="tier-how">{tier.how}</p>
+                <p>{tier.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="band-navy section" aria-labelledby="join-title">
+    <div class="narrow center">
+      <h2 id="join-title">The way in is gentle</h2>
+      <p class="lede">The 7-Day Conflict Prevention Challenge is free, and it is how every member begins. What might seven quiet days open for you?</p>
+      <div class="actions">
+        <a class="button accent" href="/challenge/">Begin the 7-Day Challenge <Icon name="arrow" /></a>
+        <a class="button ghost" href="/your-path/">See Your Path</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .joining {
+    margin-top: 1rem;
+  }
+  .features {
+    display: grid;
+    gap: 2rem;
+  }
+  .feature-lead {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+  }
+  .feature-lead h3 {
+    font-size: clamp(1.5rem, 1.5vw + 1rem, 2.1rem);
+  }
+  .feature-lead p {
+    font-size: 1.125rem;
+    margin: 0;
+  }
+  .feature-rest {
+    display: grid;
+    gap: 1.75rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+  .feature-rest h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  .feature-rest p {
+    margin: 0;
+  }
+  @media (min-width: 960px) {
+    .features {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+  .tiers {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  }
+  .tiers li {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+  .tier-ring {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .tiers h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+  }
+  .tier-how {
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+  .tiers p:last-child {
+    margin: 0;
+  }
+</style>

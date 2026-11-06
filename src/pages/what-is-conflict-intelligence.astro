@@ -1,0 +1,278 @@
+---
+/**
+ * The definitional page for "Conflict Intelligence". Written so answer engines
+ * can quote it accurately: a one-sentence definition near the top, plain
+ * question headings, and the same questions and answers as FAQPage +
+ * DefinedTerm JSON-LD (word for word, from FAQ below).
+ */
+import Icon from '../components/Icon.astro';
+import Mandala from '../components/Mandala.astro';
+import {LEVELS, levelHref} from '../content/levels';
+import Base from '../layouts/Base.astro';
+import {definedTermJsonLd, faqJsonLd, graph} from '../lib/json-ld';
+
+const path = '/what-is-conflict-intelligence/';
+const definition =
+  'Conflict Intelligence (CIQ) is the capacity to understand conflict from the inside and to meet it with clarity and care: noticing what a conflict is made of, what it is asking of us, and how we might respond.';
+
+const FAQ = [
+  {
+    q: 'What is Conflict Intelligence (CIQ)?',
+    a: `${definition} Just as emotional intelligence (EQ) describes how well we notice and work with emotions, Conflict Intelligence describes how well we notice and work with conflict. At Conflict Intelligence Training, we explore and develop CIQ through the Seven Levels Framework: Space, Emotions, Identity, Relationships, Expression, Intuition and Spirituality.`,
+  },
+  {
+    q: 'How is Conflict Intelligence related to emotional intelligence?',
+    a: 'EQ is to emotions as CIQ is to conflict. Emotional intelligence is one important part of Conflict Intelligence, reflected in the Emotions level of the Seven Levels Framework. Conflict Intelligence also includes six other levels: Space, Identity, Relationships, Expression, Intuition and Spirituality.',
+  },
+  {
+    q: 'How is Conflict Intelligence different from conflict resolution?',
+    a: 'Conflict resolution focuses on ending a conflict or reaching an agreement. Conflict Intelligence focuses on understanding what a conflict is made of, so that we can prevent unnecessary conflict, respond with more wisdom when conflict arises, and learn from it. Resolution can be one outcome of Conflict Intelligence, but it is not the only one.',
+  },
+  {
+    q: 'What is the Seven Levels Framework?',
+    a: 'The Seven Levels Framework is the model Conflict Intelligence Training uses to explore and develop Conflict Intelligence. It describes seven levels on which any conflict can be understood: Space, Emotions, Identity, Relationships, Expression, Intuition and Spirituality. Each level brings its own questions and practices.',
+  },
+  {
+    q: 'Can Conflict Intelligence be learned?',
+    a: 'Yes. Like emotional intelligence, Conflict Intelligence can be developed over time through reflection, practice and community. Many people begin by noticing which of the seven levels is most active in a conflict they are living with.',
+  },
+  {
+    q: 'Who is Conflict Intelligence for?',
+    a: 'Conflict Intelligence is for anyone who meets conflict, which is everyone. Conflict Intelligence Training is designed especially for mediators, coaches, ombuds, HR and conflict professionals; for people-first leaders; for individuals going through a personal conflict; and for parents and educators.',
+  },
+  {
+    q: 'How can I start developing Conflict Intelligence?',
+    a: 'A gentle place to begin is the free 7-Day Conflict Prevention Challenge, which offers one short reflection for each of the seven levels. Joining the Challenge also welcomes you into the Conflict Intelligence Community.',
+  },
+];
+
+const jsonLd = graph(
+  definedTermJsonLd(path, {name: 'Conflict Intelligence', alternateName: 'CIQ', description: definition}),
+  faqJsonLd(path, FAQ)
+);
+
+const compare = [
+  {row: 'What it attends to', eq: 'Emotions, in ourselves and others', ciq: 'Conflict, in ourselves, between people and in groups'},
+  {row: 'Its guiding question', eq: 'What am I feeling, and what do I do with it?', ciq: 'What is this conflict made of, and what is it asking of us?'},
+  {row: 'How it is explored', eq: 'Self-awareness, self-regulation, empathy and social skill', ciq: 'Seven levels: Space, Emotions, Identity, Relationships, Expression, Intuition, Spirituality'},
+  {row: 'How it grows', eq: 'Reflection, practice and feedback over time', ciq: 'Reflection, practice and community over time'},
+];
+---
+
+<Base
+  title="What Is Conflict Intelligence (CIQ)?"
+  description="Conflict Intelligence (CIQ) is the capacity to understand conflict from the inside and meet it with clarity and care. EQ is to emotions as CIQ is to conflict."
+  jsonLd={jsonLd}
+>
+  <article>
+    <header class="page-hero">
+      <div class="wrap split split-wide-left">
+        <div>
+          <h1>What Is Conflict Intelligence?</h1>
+          <p class="definition"><dfn>Conflict Intelligence (CIQ)</dfn> is the capacity to understand conflict from the inside and to meet it with clarity and care.</p>
+          <p class="lede">
+            It means noticing what a conflict is made of, what it is asking of us, and how we might respond. Just as emotional intelligence describes how we work with emotions,
+            Conflict Intelligence describes how we work with conflict.
+          </p>
+        </div>
+        <div class="ciq-art">
+          <Mandala label="A mandala of the seven levels through which Conflict Intelligence is explored" />
+        </div>
+      </div>
+    </header>
+
+    <section class="band section" aria-labelledby="eq-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 id="eq-title">EQ is to emotions as CIQ is to conflict</h2>
+          <p class="lede">The comparison is a helpful doorway. Emotional intelligence gave many of us language for a capacity we had always sensed. Conflict Intelligence does the same for conflict.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="compare">
+            <caption class="visually-hidden">Emotional intelligence compared with Conflict Intelligence</caption>
+            <thead>
+              <tr>
+                <th scope="col"><span class="visually-hidden">Aspect</span></th>
+                <th scope="col">Emotional intelligence (EQ)</th>
+                <th scope="col">Conflict Intelligence (CIQ)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                compare.map(item => (
+                  <tr>
+                    <th scope="row">{item.row}</th>
+                    <td>{item.eq}</td>
+                    <td>{item.ciq}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="not-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="not-title">An intelligence, not a technique</h2>
+          <p class="lede">Conflict Intelligence is less a set of steps and more a way of seeing.</p>
+        </div>
+        <div class="not-list">
+          <div>
+            <h3>It is not about avoiding conflict</h3>
+            <p>Conflict is part of every living relationship and every growing organization. Conflict Intelligence helps us prevent conflict that need not happen, and meet the rest with more wisdom.</p>
+          </div>
+          <div>
+            <h3>It is not only about resolution</h3>
+            <p>Reaching agreement matters. Yet some conflicts end on paper and remain alive underneath. Conflict Intelligence looks beyond resolution, toward understanding.</p>
+          </div>
+          <div>
+            <h3>It is not a fixed trait</h3>
+            <p>No one is born with a set amount of Conflict Intelligence. It grows through reflection, practice and the company of others doing the same work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band section" aria-labelledby="levels-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 id="levels-title">How we explore it: seven levels</h2>
+          <p class="lede">We develop Conflict Intelligence through the Seven Levels Framework. Each level offers a different lens on the same conflict.</p>
+        </div>
+        <ol class="level-rows">
+          {
+            LEVELS.map(level => (
+              <li>
+                <span class="swatch" data-level={level.slug} />
+                <a href={levelHref(level)}>
+                  <strong>{level.name}</strong>
+                </a>
+                <span class="muted">{level.summary}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <p><a class="text-link" href="/seven-levels/">Read about the Seven Levels Framework <Icon name="arrow" /></a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <div class="narrow">
+        <h2 id="faq-title">Questions people ask about Conflict Intelligence</h2>
+        <div class="faq">
+          {
+            FAQ.map(item => (
+              <section>
+                <h3>{item.q}</h3>
+                <p>{item.a}</p>
+              </section>
+            ))
+          }
+        </div>
+        <div class="actions">
+          <a class="button accent" href="/challenge/">Begin the 7-Day Challenge <Icon name="arrow" /></a>
+          <a class="button ghost" href="/your-path/">See Your Path</a>
+        </div>
+      </div>
+    </section>
+  </article>
+</Base>
+
+<style>
+  dfn {
+    font-style: normal;
+    color: var(--primary);
+    font-weight: 650;
+  }
+  .ciq-art {
+    width: min(100%, 380px);
+    justify-self: center;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+  }
+  .compare {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  .compare th,
+  .compare td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .compare thead th {
+    color: var(--primary);
+    font-size: 1.05rem;
+  }
+  .compare thead th:last-child,
+  .compare td:last-child {
+    background: #fff4ec;
+  }
+  .compare tbody th {
+    color: var(--muted);
+    font-weight: 600;
+    width: 22%;
+  }
+  .compare tr:last-child > * {
+    border-bottom: 0;
+  }
+  .not-list {
+    display: grid;
+    gap: 1.75rem;
+  }
+  .not-list h3 {
+    margin-bottom: 0.35rem;
+  }
+  .not-list p {
+    margin: 0;
+  }
+  .level-rows {
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .level-rows li {
+    display: grid;
+    grid-template-columns: auto minmax(8rem, 12rem) 1fr;
+    gap: 0.4rem 1rem;
+    align-items: baseline;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .level-rows a {
+    font-size: 1.1rem;
+  }
+  @media (max-width: 640px) {
+    .level-rows li {
+      grid-template-columns: auto 1fr;
+    }
+    .level-rows li > span.muted {
+      grid-column: 2;
+    }
+  }
+  .faq {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .faq section {
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .faq h3 {
+    margin-bottom: 0.5rem;
+  }
+  .faq p {
+    margin: 0;
+  }
+</style>

@@ -13,10 +13,10 @@ const posts = await publishedPosts();
 const tags = tagsOf(posts);
 ---
 
-<Base title="Blog" description="Stories, guides and updates.">
+<Base title="Resources and blog" description="Reflections, practices and resources on Conflict Intelligence and the Seven Levels Framework, from Conflict Intelligence Training.">
   <section class="wrap section">
-    <h1>Blog</h1>
-    <p class="lede">Stories, guides and updates.</p>
+    <h1>Resources and reflections</h1>
+    <p class="lede">Short essays and practices on Conflict Intelligence and the seven levels. Something to read slowly, and perhaps return to.</p>
     {
       tags.length > 0 && (
         <nav aria-label="Topics">
@@ -38,7 +38,7 @@ const tags = tagsOf(posts);
           ))}
         </div>
       ) : (
-        <p class="muted">No posts yet. Check back soon.</p>
+        <p class="muted">New reflections are on their way.</p>
       )
     }
   </section>

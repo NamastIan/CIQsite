@@ -1,0 +1,100 @@
+---
+/** Your Path: the three tiers in full, and a gentle guide to where each person might begin. */
+import Icon from '../components/Icon.astro';
+import Photo from '../components/Photo.astro';
+import YourPath from '../components/YourPath.astro';
+import Base from '../layouts/Base.astro';
+import forestPath from '../assets/photos/forest-path.jpg';
+
+const starts = [
+  {who: 'If you are living with a conflict right now', where: 'the 7-Day Conflict Prevention Challenge', href: '/challenge/'},
+  {who: 'If you work with conflict for a living', where: 'Beyond Resolution, our series for practitioners', href: '/beyond-resolution/'},
+  {who: 'If you lead a team', where: 'the Seven Levels Framework, then the Exploration Kit', href: '/seven-levels/'},
+  {who: 'If you care for or teach children', where: 'The Seven Steps to Peace', href: '/childrens-book/'},
+  {who: 'If you are ready for depth and community', where: 'the Practitioner Certification', href: '/certification/'},
+];
+---
+
+<Base title="Your Path" description="Explore for free, build skills with the Conflict Exploration Kit, or go deep with the Seven Levels Practitioner Certification. Where might you begin?">
+  <header class="page-hero">
+    <div class="wrap split split-wide-left">
+      <div>
+        <h1>Your Path</h1>
+        <p class="lede">
+          Conflict Intelligence grows in its own time. We offer three tiers, Explore, Build Skills and Go Deep, so that each person can step in where it feels right and move
+          further when they are ready.
+        </p>
+      </div>
+      <Photo src={forestPath} alt="A sunlit path winding through tall trees" width={560} height={400} sizes="(min-width: 900px) 460px, calc(100vw - 32px)" eager />
+    </div>
+  </header>
+
+  <section class="section-tight" aria-label="The three tiers">
+    <div class="wrap">
+      <YourPath headingLevel="h2" />
+    </div>
+  </section>
+
+  <section class="band section" aria-labelledby="start-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="start-title">Not sure where to begin?</h2>
+        <p class="lede">There is no wrong door. Here are a few places people often start.</p>
+      </div>
+      <ul class="starts">
+        {
+          starts.map(item => (
+            <li>
+              <span class="muted">{item.who}, you might begin with</span>
+              <a href={item.href} class="text-link">
+                {item.where} <Icon name="arrow" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="move-title">
+    <div class="wrap">
+      <h2 id="move-title" class="section-intro">How the tiers connect</h2>
+      <div class="grid grid-3 connect">
+        <div>
+          <h3>Explore</h3>
+          <p>Joining the 7-Day Challenge welcomes you into the Conflict Intelligence Community as a General Member. The series and the children’s book are free as well.</p>
+        </div>
+        <div>
+          <h3>Build Skills</h3>
+          <p>Kit Owners are invited to a Kit Owners webinar and receive a Kit Owner badge and space in the Community, where the deck becomes a shared practice.</p>
+        </div>
+        <div>
+          <h3>Go Deep</h3>
+          <p>Certification includes the Kit deck and the book <cite>Resolving From Within</cite>, and six months of Community of Practice access after the final session.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .starts {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .starts li {
+    display: grid;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .starts .text-link {
+    font-size: 1.1rem;
+  }
+  .connect > div {
+    padding-top: 1.25rem;
+    border-top: 3px solid var(--accent);
+  }
+</style>

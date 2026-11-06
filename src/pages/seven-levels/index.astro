@@ -1,0 +1,162 @@
+---
+/** The Seven Levels Framework: the mandala, then one section per level, each linking to its own page. */
+import Icon from '../../components/Icon.astro';
+import Mandala from '../../components/Mandala.astro';
+import {LEVELS, levelHref} from '../../content/levels';
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  title="The Seven Levels Framework"
+  description="The Seven Levels Framework explores conflict through Space, Emotions, Identity, Relationships, Expression, Intuition and Spirituality, the levels of Conflict Intelligence."
+>
+  <header class="page-hero">
+    <div class="wrap split">
+      <div>
+        <h1>The Seven Levels Framework</h1>
+        <p class="lede">
+          Every conflict lives on several levels at once. The Seven Levels Framework is the map we use to explore and develop Conflict Intelligence: seven lenses, each revealing
+          something the others might miss.
+        </p>
+        <ol class="legend" aria-label="The seven levels">
+          {
+            LEVELS.map(level => (
+              <li>
+                <span class="swatch" data-level={level.slug} />
+                <a href={`#${level.slug}`}>{level.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="levels-art">
+        <Mandala linked animate />
+        <p class="small muted center">Choose a petal to open that level.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="band section-tight" aria-labelledby="how-title">
+    <div class="wrap split">
+      <h2 id="how-title">How the levels work together</h2>
+      <div>
+        <p>
+          The levels are not steps to climb or boxes to sort people into. They are ways of seeing. In any one conflict, several levels are usually active at once, and the level
+          that feels loudest is not always the one that matters most.
+        </p>
+        <p>
+          We move through them in order, from Space to Spirituality, because each level tends to open the next. Yet in practice we can enter anywhere, and we often return to a
+          level many times.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap section levels">
+    {
+      LEVELS.map(level => (
+        <section id={level.slug} class="level" aria-labelledby={`${level.slug}-title`}>
+          <div class="level-mark" data-level={level.slug}>
+            <span>{level.number}</span>
+          </div>
+          <div>
+            <p class="level-of">Level {level.number} of 7</p>
+            <h2 id={`${level.slug}-title`}>{level.name}</h2>
+            <p class="level-question">{level.question}</p>
+            <p>{level.summary}</p>
+            <a class="text-link" href={levelHref(level)}>
+              Explore {level.name} <Icon name="arrow" />
+            </a>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <section class="band-navy section" aria-labelledby="next-title">
+    <div class="narrow center">
+      <h2 id="next-title">Seven days, seven levels</h2>
+      <p class="lede">The 7-Day Conflict Prevention Challenge invites one short reflection for each level. It is free, and it is a gentle way to feel how the levels move in your own life.</p>
+      <div class="actions">
+        <a class="button accent" href="/challenge/">Begin the 7-Day Challenge <Icon name="arrow" /></a>
+        <a class="button ghost" href="/exploration-kit/">See the Exploration Kit</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .levels-art {
+    width: min(100%, 460px);
+    justify-self: center;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .legend a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .levels {
+    display: grid;
+    gap: 0;
+  }
+  .level {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem clamp(1.25rem, 4vw, 3rem);
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 90px;
+  }
+  .level:first-child {
+    padding-top: 0;
+  }
+  .level-mark {
+    display: grid;
+    place-items: center;
+    width: clamp(3.5rem, 6vw, 5rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: var(--white);
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    font-weight: 650;
+  }
+  .level-mark[data-level='emotions'],
+  .level-mark[data-level='identity'],
+  .level-mark[data-level='relationships'],
+  .level-mark[data-level='expression'] {
+    color: var(--ink);
+  }
+  .level-of {
+    margin: 0 0 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .level h2 {
+    margin-bottom: 0.35rem;
+  }
+  .level-question {
+    font-size: clamp(1.2rem, 0.8vw + 1rem, 1.45rem);
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+  .level p:not(.level-question):not(.level-of) {
+    max-width: 62ch;
+  }
+</style>
